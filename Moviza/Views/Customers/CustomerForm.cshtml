@@ -1,0 +1,52 @@
+﻿
+@model Moviza.ViewModels.NewCustomerViewModel
+@{
+
+
+    ViewBag.Title = "New";
+}
+
+
+<h2>@Model.Title</h2>
+
+
+@using (Html.BeginForm("Save", "Customers"))
+{
+    @Html.ValidationSummary(true,"please fix the following errors")
+    <div class="form-group">
+
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Birthday)
+        @Html.TextBoxFor(m => m.Birthday, "{0:d MMMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Birthday)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MembershipTypeId)
+        @Html.DropDownListFor(m => m.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MembershipTypeId)
+    </div>
+
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.IsSubscribedToNewsletter, new { }) Subscribed To Newslette
+            @Html.ValidationMessageFor(m => m.IsSubscribedToNewsletter)
+        </label>
+    </div>
+
+    
+    @Html.HiddenFor(m => m.Id)
+    @Html.ValidationMessageFor(m => m.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn-primary">Save</button>
+}
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

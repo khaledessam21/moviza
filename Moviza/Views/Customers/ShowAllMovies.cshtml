@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "ShowAllMovies";
+}
+
+<h2>ShowAllMovies</h2>
+<head>
+
+
+<link href="~/Content/showmovies.css" rel="stylesheet" />
+   
+</head>
+
+<div class="container">
+    <div class="row" id="cont-cust">
+        <h2>Ecommerce Products Display Layout</h2>
+        <p>
+            This snippent uses <a href="http://daneden.github.io/animate.css/" target="_blank">Animate.css</a> for the animation of the buttons.
+        </p>
+
+
+    </div>
+</div>
+
+@section scripts{
+    
+    <script>
+
+        $(document).ready(function () {
+            var num = 1;
+            $(window).scroll(function () {
+
+                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                    num += 1;
+                    LoadData(num);
+                }
+
+            });
+            LoadData(num);
+
+            function LoadData(currentpage) {
+
+                $.ajax({
+
+                    url: "GetFewMovie",
+                    method: "POST",
+                    data: { pagenum: currentpage , pagesize: 2 },
+                    dataType: 'json',
+                    success: function (data) {
+                        data = JSON.parse(data);
+                        var customers = $("#cont-cust");
+                        $(data).each(function (index, cust) {
+
+                            // cust.ReleaseDate
+                            // cust.NumberAvailable
+                            customers.append("<div class='col-sm-6'>+<article class='col-item'> <div class='photo'>" +
+                                "<div class='options-cart-round'>" +
+                                "   <button class='btn btn-default' title='Add to cart'>" +
+                                " <span class='fa fa-shopping-cart'></span>" +
+                                "  </button>" +
+                                " </div>" +
+                                "<a href='#'> <img src='https://unsplash.it/500/300?image=0' class='img-responsive' alt='Product Image' /> </a>"
+                                + "</div>" +
+                                " <div class='info'>" +
+                                "     <div class='row'>"
+                                + "   <div class='price-details col-md-6'>" +
+                                "     <p class='details'>" +
+                                " Lorem ipsum dolor sit amet, consectetur.."
+                                + " </p>" +
+                                +"  <h1>" + cust.Name + "</h1>"
+                                + "   <span class='price-new'>$110.00</span>" +
+                                " </div>" +
+                                " </div>" +
+                                "</div>" +
+                                "  </article>" +
+
+                                "  </div>")
+
+                        });
+
+                    }
+                    , Error: function (data) {
+                        console.log("failed response")
+                    }
+                });
+
+
+            }
+
+
+        });
+
+
+    </script>
+    
+    
+    
+    
+    }

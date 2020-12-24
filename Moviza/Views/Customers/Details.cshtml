@@ -1,0 +1,29 @@
+﻿@model Moviza.Models.Customer
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Customer Id</th>
+            <th>Customer Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.Name</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<p>@Model.Id</p>
+<p>@Model.Name</p>
+<p>@Model.IsSubscribedToNewsletter</p>

@@ -1,0 +1,121 @@
+﻿
+@model  IEnumerable<Moviza.Models.Movie>
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies </h2>
+
+@if (Model.Count() == 0)
+{
+    <text>there no customers have rented this movie before</text>
+}
+else
+{
+    <table class="table table-bordered table-hover" id="movies">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre.Name)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.ReleaseDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumberInStock)
+                </th>
+             
+            </tr>
+        </thead>
+
+        <tbody>
+
+        
+        </tbody>
+    </table>
+
+
+
+
+}
+
+@section  scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+         var table=   $("#movies").DataTable({
+
+                ajax: {
+                    url: "/api/Movie",
+                    dataSrc:""
+
+                },
+
+                columns: [
+
+                    {
+                        data:"Name"
+                    },
+
+
+                    {
+
+                        data:"Genre.Name"
+
+                    },
+
+                    {
+                        data:"ReleaseDate"
+                    },
+                    {
+                        data:"NumberInStock"
+                    }
+                   
+                ]
+
+
+            });
+
+            $("#movies").on("click",".btn-js",function () {
+                var btn = $(this);
+                var btn_id = $(this).attr("data-movie-id");
+
+                bootbox.confirm("are you sure you want to delete this movie", function (result) {
+
+                    if (result) {
+
+                        $.ajax({
+
+                            url: "/api/Movie/" + btn_id,
+                            method: "DELETE",
+                            success: function () {
+
+                                table.row(btn.parents("tr")).remove().draw();
+
+                              //  btn.parents("tr").remove();
+
+                            }
+
+
+                        });
+                    }
+
+
+
+                });
+
+            });
+        });
+
+    </script>
+
+}
